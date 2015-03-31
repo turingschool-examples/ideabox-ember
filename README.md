@@ -89,3 +89,59 @@ export default Ember.Route.extend({
 ```
 
 There is still not a lot else to see in our application, but we can check it out the ember inspector to see that our notes have been loaded up.
+
+## Building Templates
+
+So, we've got our data loaded up, but we aren't doing anything with it yet.
+
+Let's take a peek in the `app/templates` folder.
+
+In `app/templates/application.hbs`:
+
+```hbs
+<div class="container">
+
+  <heading>
+    <h1>IdeaBox</h1>
+  </heading>
+
+  {{outlet}}
+
+</div>
+```
+
+And then we'll put the meat of our application in the `app/templates/ideas.hbs`. Here is some markup I stole:
+
+```hbs
+<section id="new-idea">
+  <h2>Add a New Idea</h2>
+  <form class="new-idea-form">
+    <label>Title</label>
+    <input type="text" placeholder="Title" class="new-idea-title">
+    <label>Body</label>
+    <input type="text" placeholder="Body" class="new-idea-body">
+    <input type="submit" value="Submit Your Great Idea">
+  </form>
+</section>
+
+<section id="ideas">
+  <!-- We'll put some more stuff here in a moment! -->
+</section>
+```
+
+Okay, let's dig into that `section#ideas` tag:
+
+```hbs
+<section id="ideas">
+  {{#each model as |idea|}}
+  <div class="idea">
+    <h2>{{idea.title}}</h2>
+    <p>{{idea.body}}</p>
+  </div>
+  {{/each}}
+</section>
+```
+
+Yay, we're now rendering some ideas!
+
+But, our form doesn't work. Bummer.
