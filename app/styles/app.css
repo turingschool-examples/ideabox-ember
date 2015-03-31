@@ -1,0 +1,92 @@
+* {
+  font-family: "Courier New", "Courier", monospace;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: auto;
+  max-width: 600px;
+  padding: 0.5em 1em;
+}
+
+#new-idea {
+  background-color: rgba(182, 221, 211, 0.4);
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.idea {
+  background-color: rgb(255, 245, 213);
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+  margin-top: 0;
+}
+
+label {
+  background-color: rgb(248, 212, 58);
+  display: block;
+  margin: 1em 0 0.5em 0;
+  font-weight: bold;
+}
+
+input {
+  border: none;
+  display: block;
+  font-size: 1em;
+  padding: 0.5em;
+}
+
+input[type="text"] {
+  background-color: rgb(182, 221, 211);
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+input[type="submit"], button {
+  color: white;
+  border: none;
+  background-color: rgb(98, 186, 157);
+  padding: 0.5em;
+}
+
+input[type="submit"]:hover, button:hover {
+  background-color: rgb(108, 196, 167);
+}
+
+input[type="submit"]:active, button:active {
+  background-color: rgb(88, 176, 147);
+}
+
+form input[type="submit"], form button {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+button.cancel, button.delete {
+  background-color: rgb(196, 51, 49);
+}
+
+button.cancel:hover, button.delete:hover {
+  background-color: rgb(218, 71, 69);
+}
+
+.edit-idea-form {
+  display: none;
+}
+
+@media (min-width: 575px) {
+  #new-idea {
+    max-width: 300px;
+    float: left;
+  }
+
+  #ideas{
+    float: right;
+    max-width: 300px;
+  }
+}
