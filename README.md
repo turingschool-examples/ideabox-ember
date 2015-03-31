@@ -145,3 +145,48 @@ Okay, let's dig into that `section#ideas` tag:
 Yay, we're now rendering some ideas!
 
 But, our form doesn't work. Bummer.
+
+## Setting Up Actions in a Controller
+
+We want to wire up some actions. That's the job of the controller.
+
+```
+ember g controller ideas
+```
+
+Let's set it up with the following:
+
+```
+import Ember from 'ember';
+
+export default Ember.Controller.extend({
+
+  title: null,
+  body: null,
+
+  actions: {
+    addNewIdea: function () {
+      let idea = this.getProperties('title', 'body');
+      this.store.createRecord('idea', idea).save();
+    }
+  }
+
+});
+```
+
+So, we have an action that will create a new note, let's wire up our template. In `app/templates/ideas.hbs`:
+
+```hbs
+<section id="new-idea">
+  <h2>Add a New Idea</h2>
+  <form class="new-idea-form">
+    <label>Title</label>
+    {{input type="text" placeholder="Title" class="new-idea-title" value=title}}
+    <label>Body</label>
+    {{input type="text" placeholder="Body" class="new-idea-body" value=body}}
+    <input type="submit" value="Submit Your Great Idea" {{action 'addNewIdea'}}>
+  </form>
+</section>
+```
+
+Go ahead and try to create a new note. It should work.
