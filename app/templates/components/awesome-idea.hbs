@@ -1,7 +1,16 @@
 <div class="idea">
-  <h2>{{idea.title}}</h2>
+  <h2>{{idea.title}}{{if idea.isDirty '*'}}</h2>
   <p>{{idea.body}}</p>
   <div class="buttons">
+    <button class="edit" {{action 'edit'}}>Edit</button>
     <button class="delete" {{action 'delete'}}>Delete</button>
+    {{#if editing}}
+    <form class="edit-idea-form">
+      <label>Title</label>
+      {{input type="text" placeholder="Title" class="idea-title" value=idea.title}}
+      <label>Body</label>
+      {{input type="text" placeholder="Body" class="idea-body" value=idea.body}}
+    </form>
+    {{/if}}
   </div>
 </div>

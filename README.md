@@ -234,6 +234,8 @@ Then in `app/templates/ideas.hbs`:
 
 The end result should look exactly like it did before we went down this road.
 
+### Deleting Notes
+
 Let's add a button to delete an idea in `app/templates/components/awesome-idea.hbs`:
 
 ```
@@ -264,3 +266,64 @@ export default Ember.Component.extend({
 
 Let's go back to our browser, we should be able to delete a note.
 
+### Updating Notes
+
+So, we can delete notes—but what about updating them? That's doable too.
+
+First, let's update our component with a form updating the note.
+
+```hbs
+<div class="idea">
+  <h2>{{idea.title}}</h2>
+  <p>{{idea.body}}</p>
+  <div class="buttons">
+    <button class="edit" {{action 'edit'}}>Edit</button>
+    <button class="delete" {{action 'delete'}}>Delete</button>
+    {{#if editing}}
+    <form class="edit-idea-form">
+      <label>Title</label>
+      {{input type="text" placeholder="Title" class="idea-title" value=idea.title}}
+      <label>Body</label>
+      {{input type="text" placeholder="Body" class="idea-body" value=idea.body}}
+    </form>
+    {{/if}}
+  </div>
+</div>
+```
+
+Let's also update our implementation:
+
+```js
+export default Ember.Component.extend({
+
+  editing: false,
+
+  actions: {
+    edit: function () {
+      let editing = this.get('editing');
+      if (editing) {
+        this.get('idea').save().then(() => {
+          this.set('editing', false);
+        });
+      } else {
+        this.set('editing', true);
+      }
+    },
+    delete: function () {
+      this.get('idea').destroyRecord();
+    }
+  }
+
+});
+```
+
+The super cool thing is that our view is automatically updating—but how do we know if we saved?
+
+A model is considered 'dirty' if it's not saved to the server. Let's take this to our advantage.
+
+```hbs
+<div class="idea">
+  <h2>{{idea.title}}{{if idea.isDirty '*'}}</h2>
+  <!-- Look up! -->
+</div>
+```
