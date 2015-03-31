@@ -190,3 +190,77 @@ So, we have an action that will create a new note, let's wire up our template. I
 ```
 
 Go ahead and try to create a new note. It should work.
+
+## Isolating Functionality with Components
+
+So, what about editing and deleting ideas? When we used jQuery, we solved this problem by doing a bunch of DOM traversal and manipulation. IdeaBox is still pretty simple, but in a complex application, this technique can get out of hand relatively quickly.
+
+If only we could take each idea and isolate it in it's own little world. Oh wait, we can with Ember components.
+
+```
+ember g component awesome-idea
+```
+
+So, this generated two files:
+
+```
+installing
+  create app/components/awesome-idea.js
+  create app/templates/components/awesome-idea.hbs
+```
+
+The JavaScript file will hold the behavior of our component and the Handlebars file will hold the markup.
+
+The first step is to move markup for an individual idea into our new component.
+
+In `app/templates/components/awesome-idea.hbs`:
+
+```hbs
+<div class="idea">
+  <h2>{{idea.title}}</h2>
+  <p>{{idea.body}}</p>
+</div>
+```
+
+Then in `app/templates/ideas.hbs`:
+
+```hbs
+<section id="ideas">
+  {{#each model as |idea|}}
+    {{awesome-idea idea=idea}}
+  {{/each}}
+</section>
+```
+
+The end result should look exactly like it did before we went down this road.
+
+Let's add a button to delete an idea in `app/templates/components/awesome-idea.hbs`:
+
+```
+<div class="idea">
+  <h2>{{idea.title}}</h2>
+  <p>{{idea.body}}</p>
+  <div class="buttons">
+    <button class="delete" {{action 'delete'}}>Delete</button>
+  </div>
+</div>
+```
+
+Alright, cool—we have a button with an action. Now, we just need to write the implementation:
+
+```js
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+
+  actions: {
+    delete: function () {
+      this.get('idea').destroyRecord();
+    }
+  }
+
+});
+```
+
+Let's go back to our browser, we should be able to delete a note.
+
