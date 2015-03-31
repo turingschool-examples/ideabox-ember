@@ -7,8 +7,8 @@ let Idea = DS.Model.extend({
 
 Idea.reopenClass({
   FIXTURES: [
-    { title: "First Idea", body: "Lorem ipsum…" },
-    { title: "Second Idea", body: "Lorem ipsum…" }
+    { id: 1, title: "First Idea", body: "Lorem ipsum…" },
+    { id: 2, title: "Second Idea", body: "Lorem ipsum…" }
   ]
 });
 
