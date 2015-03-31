@@ -1,53 +1,91 @@
-# Ideabox-ember
+# IdeaBox Ember
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+## Basic Installation
 
-## Prerequisites
+Clone down this repository and run the following:
 
-You will need the following things properly installed on your computer.
+```
+npm install && bower install
+```
 
-* [Git](http://git-scm.com/)
-* [Node.js](http://nodejs.org/) (with NPM)
-* [Bower](http://bower.io/)
-* [Ember CLI](http://www.ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
+## Setting Up Our Fixtures
 
-## Installation
+Let's start by generating a model:
 
-* `git clone <repository-url>` this repository
-* change into the new directory
-* `npm install`
-* `bower install`
+```
+ember g model idea
+```
 
-## Running / Development
+This will generate the following files:
 
-* `ember server`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+```
+installing
+  create app/models/idea.js
+installing
+  create tests/unit/models/idea-test.js
+```
 
-### Code Generators
+We're going to focus our attention on `app/models/idea.js`. There is some boiler plate, but we're going to move some stuff around:
 
-Make use of the many generators for code, try `ember help generate` for more details
+```js
+import DS from 'ember-data';
 
-### Running Tests
+let Idea = DS.Model.extend({
+  title: DS.attr('string'),
+  body: DS.attr('string'),
+});
 
-* `ember test`
-* `ember test --server`
+Idea.reopenClass({
+  FIXTURES: [
+    { id: 1, title: "First Idea", body: "Lorem ipsum…" },
+    { id: 2, title: "Second Idea", body: "Lorem ipsum…" }
+  ]
+});
 
-### Building
+export default Idea;
+```
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+We'll also need an adapter to our back end. One minor issue is that we don't have a back end. So, let's just use Ember Data's fixture adapter. First, we'll generate the adapter:
 
-### Deploying
+```
+ember g adapter application
+```
 
-Specify what it takes to deploy your app.
+Next we'll switch out the `DS.RestAdapter` for `DS.FixtureAdapter`:
 
-## Further Reading / Useful Links
+```js
+import DS from 'ember-data';
 
-* [ember.js](http://emberjs.com/)
-* [ember-cli](http://www.ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+export default DS.FixtureAdapter.extend({
+});
+```
 
+## Setting Up Our Route
+
+So, let's start by generating a route:
+
+```
+ember g route ideas
+```
+
+We don't need to do this per say, but we're only going to have one route in this application it. So, let's map it to the root. In `app/router.js`:
+
+```js
+export default Router.map(function() {
+  this.route('ideas', { path: '/' });
+});
+```
+
+Now, we'll fetch our great ideas when the application fires up. In `app/routes/ideas.js`:
+
+```js
+import Ember from 'ember';
+
+export default Ember.Route.extend({
+  model: function () {
+    return this.store.find('idea');
+  }
+});
+```
+
+There is still not a lot else to see in our application, but we can check it out the ember inspector to see that our notes have been loaded up.
