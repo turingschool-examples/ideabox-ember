@@ -2,10 +2,10 @@
   <h2>Add a New Idea</h2>
   <form class="new-idea-form">
     <label>Title</label>
-    <input type="text" placeholder="Title" class="new-idea-title">
+    {{input type="text" placeholder="Title" class="new-idea-title" value=title}}
     <label>Body</label>
-    <input type="text" placeholder="Body" class="new-idea-body">
-    <input type="submit" value="Submit Your Great Idea">
+    {{input type="text" placeholder="Body" class="new-idea-body" value=body}}
+    <input type="submit" value="Submit Your Great Idea" {{action 'addNewIdea'}}>
   </form>
 </section>
 
